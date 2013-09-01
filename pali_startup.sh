@@ -3,6 +3,7 @@
 
 MMS_HOME=/home/mjs/work/leadgen/mms_core
 SITE_HOME=/home/mjs/work/leadgen/theseniorchoice
+RABIIT_HOME=/Users/vlb/run/rabbitmq_server-3.1.5
 current_dir=`pwd`
 
 #postgres
@@ -24,6 +25,10 @@ cd $MMS_HOME
 be unicorn -c /home/mjs/work/leadgen/mms_core/config/unicorn-dev.rb -D
 cd $SITE_HOME
 be unicorn -c $SITE_HOME/config/unicorn-dev.rb -D
+
+#rabbit mq
+echo "Starting rabbit mq"
+$RABIIT_HOME/sbin/rabbitmq-server -detached
 
 cd $current_dir
 echo "Done"
