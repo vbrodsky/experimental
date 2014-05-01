@@ -17,7 +17,7 @@ echo "Starting memcached"
 #nginx
 echo "Starting nginx"
 sudo mkdir -p /var/run/nginx/
-sudo nginx -c $MMS_HOME/etc/nginx/nginx-dev.conf 
+sudo nginx -c $MMS_HOME/etc/nginx/nginx-dev-osx.conf
 
 #unicorns
 echo "Starting unicorns"
@@ -28,7 +28,9 @@ be unicorn -c $SITE_HOME/config/unicorn-dev.rb -D
 
 #rabbit mq
 echo "Starting rabbit mq"
-$RABIIT_HOME/sbin/rabbitmq-server -detached
+#export RABBITMQ_NODE_PORT=5432
+rabbitmq-server -detached - start
 
 cd $current_dir
 echo "Done"
+
