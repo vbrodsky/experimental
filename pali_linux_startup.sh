@@ -1,4 +1,4 @@
-i#/bin/bash -l
+#/bin/bash -l
 
 
 MMS_HOME=/home/mjs/work/leadgen/mms_core
@@ -17,8 +17,12 @@ echo "Starting memcached"
 
 #nginx
 echo "Starting nginx"
+if -f "/run/nginx.pid"
+then
+  sudo nginx -s stop
+fi
 sudo mkdir -p /var/run/nginx/
-sudo nginx -c $MMS_HOME/etc/nginx/nginx-dev.conf
+sudo nginx -c $MMS_HOME/etc/nginx/nginx-dev-osx.conf
 
 #unicorns
 echo "Starting unicorns"
