@@ -1,0 +1,62 @@
+# r-base-core linux dependencies
+linux	zip
+linux	unzip
+linux	libpaper-utils
+linux	xdg-utils
+linux	libatlas3gf-base
+linux	libc6
+linux	libcairo2
+linux	libgfortran3
+linux	libglib2.0-0
+linux	libgomp1
+linux	libice6
+linux	libjpeg62
+linux	libpango1.0-0
+linux	libpcre3
+linux	libpng12-0
+linux	libreadline6
+linux	libsm6
+linux	libtiff4
+linux	libx11-6
+linux	libxext6
+linux	libxss1
+linux	libxt6
+linux	tcl8.5
+linux	tk8.5
+linux	zlib1g
+linux	ucf
+# r-base-dev linux dependencies
+linux	gfortran
+linux	libblas-dev
+linux	libatlas-base-dev
+linux	liblapack-dev
+linux	libatlas-base-dev
+linux	libreadline-dev
+linux	libjpeg-dev
+linux	libpcre3-dev
+linux	libpng-dev
+linux	libbz2-dev
+linux	cdbs
+# use unusual source for liblzma1, to avoid needing separate version of this config file for EMR
+#dpkg	liblzma1_4.999.9beta+20091116-1_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/ubuntu-cambrium
+linux	liblzma-dev
+# R 3.1.1
+dpkg	r-base-core_3.1.1-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-base-dev_3.1.1-1lucid0_all.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+# other packages we use
+dpkg	r-cran-boot_1.3-9-1lucid0_all.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-mass_7.3-29-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-class_7.3-9-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-cluster_1.14.4-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-codetools_0.2-8-2lucid0_all.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-foreign_0.8.55-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-kernsmooth_2.23-10-2lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-lattice_0.20-23-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-matrix_1.0-12-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-nlme_3.1.111-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-mgcv_1.7-24-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-nnet_7.3-7-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-survival_2.37-4-2lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-rpart_4.1-3-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-cran-spatial_7.3-6-1lucid0_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu
+dpkg	r-recommended_3.1.1-1lucid0_all.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-cmu

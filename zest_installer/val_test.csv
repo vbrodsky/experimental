@@ -1,0 +1,27 @@
+# r-base-core linux dependencies
+linux	zip
+linux	unzip
+linux	libpaper-utils
+linux	xdg-utils
+linux	libatlas3gf-base
+linux	libc6
+linux	libcairo2
+linux	libgfortran3
+linux	libglib2.0-0
+linux	libgomp1
+linux	libice6
+linux	libjpeg62
+linux	libpango1.0-0
+linux	libpcre3
+linux	libpng12-0
+linux	libreadline6
+linux	libsm6
+linux	libtiff4
+linux	libx11-6
+linux	libxext6
+linux	libxss1
+linux	libxt6
+linux	tcl8.5
+linux	tk8.5
+linux	zlib1g
+linux	ucf
