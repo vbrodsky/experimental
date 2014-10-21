@@ -1,9 +1,12 @@
+$: << File.expand_path(File.dirname(__FILE__) + '/lib')
+
 require 'optparse'
 require 'ostruct'
 require 'pp'
 require 'csv'
 
-$stdout = STDOUT
+require 'uw_deploy'
+ 
 
 class InstallOperation
   Operation = 0
@@ -16,40 +19,63 @@ class InstallOperation
   end
 end
 
+def verify(options)
+  installation_steps = []
+
+  CSV.foreach(options.package_file) do |r|
+    line = r[0].strip
+    next if line[0] =='#' #comment
+    installation_steps.push line.split(/\s+/)
+  end
+
+  packages_not_installed = []
+  installation_steps.each do |step|
+    package_name = step[InstallOperation::Package_Name]
+    installed = system("dpkg -l #{package_name}")
+    packages_not_installed << package_name if !installed
+  end
+
+  if !packages_not_installed.empty?
+    puts 'Packages not installed:'
+    pp packages_not_installed
+  end
+end
 
 options = OpenStruct.new
-options.run = 'validate'
+options.run = 'install'
+options.log_file = 'log/installer.log'
+options.dest_dir = '/tmp'
 
 OptionParser.new do |opts|
-  opts.banner = "Usage: ruby ruby-installer.rb -c <config_file> -r <validate|install>"
+  opts.banner = "Usage: ruby ruby-installer.rb -p <package_file> -r <verify|install> -b<bucket(for install)> 
+                 -l<log file> --dest-dir"
   
   opts.on("-r", "--run command",
               "Command to run: currently only validate is supported") do |command|
     options.run = command
   end
   
-  opts.on("-c", "--config file",
-              "Install config gile") do |file|
-    options.config = file
+  opts.on("-p", "--package_list file",
+              "File listing packages to install") do |file|
+    options.package_file = file
+  end
+
+  opts.on("-b", "--bucket file",
+              "S3 bucket name") do |file|
+    options.bucket = file
+  end
+
+  opts.on("-l", "--log file",
+              "log file") do |file|
+    options.log_file = file
   end
 end.parse!
 
-installation_steps = []
-
-CSV.foreach(options.config) do |r|
-  line = r[0].strip
-  next if line[0] =='#' #comment
-  installation_steps.push line.split(/\s+/)
-end
-
-packages_not_installed = []
-installation_steps.each do |step|
-  package_name = step[InstallOperation::Package_Name]
-  installed = system("dpkg -l #{package_name}")
-  packages_not_installed << package_name if !installed
-end
-
-if !packages_not_installed.empty?
-  puts 'Packages not installed:'
-  pp packages_not_installed
+case options.run
+when 'install'
+  UwDeploy::DeployFromPackageConfigFileV2.new(options).deploy
+when 'validate'
+  verify(options)
+else
+  UwDeploy::DeployFromPackageConfigFileV2.new(options).deploy
 end
