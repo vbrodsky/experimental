@@ -39,9 +39,9 @@ SUDO=${2:-}
 S3CFG=${3:-~/.s3cfg}
 DEST_DIR=${4:-/tmp}
 
-while IFS= read -r line
+IFS=$'\n' read -d '' -r -a lines < $1
+for line in "${lines[@]}"
 do
-    line=$line
     echo $line | grep '^[[:space:]]*#' &> /dev/null
     if [[ $? == 0 ]]
     then
