@@ -3,7 +3,7 @@ module UwDeploy
 
     attr_reader :config, :logger
 
-#    include S3Fetch
+    include UwDeploy::S3FetchV2
 
     #def deploy
     #  @destination = new_resource.destination
@@ -12,11 +12,11 @@ module UwDeploy
 
     def initialize(config)
       @config = config
-      @logger = ::Logger.new(config.log_file)
+      @logger = config.logger
+      @destination = config.dest
     end
 
     def deploy
-    require 'debug'
       fetch_and_deploy_from config.package_file
     end
 
@@ -84,7 +84,7 @@ module UwDeploy
           when 'dpkg'
             d_sitebase = get_sitebase(opt1)
             object_name = d_sitebase + '/' + name
-            logger.info "Deploying Debian package: #{object_name}"
+            logger.info "Deploying Debian package: #{name}"
             process_object object_name, @destination
           when 'R'
             r_sitebase = get_sitebase(opt3)
@@ -97,6 +97,28 @@ module UwDeploy
       end
       f.close
     end
+
+  # handle specific file types, including config files
+  def post_fetch local_filename
+    if local_filename.end_with?('.tsv')
+      logger.info "Deploying contents of config file: #{local_filename}"
+      process_config_file local_filename
+
+    elsif local_filename.end_with?('.gz')
+      logger.info "Deploying R package: #{local_filename}"
+      execute "install custom R package #{local_filename}" do
+        command "R CMD INSTALL #{local_filename}"
+      end
+
+    elsif local_filename.end_with?('.deb')
+      logger.info "Deploying Debian package: #{local_filename}"
+      package_base = Regexp.new(".*/([^/]+)_([^_/]+)\.deb$").match(local_filename)[1]
+      dpkg_package "#{package_base}" do
+        action :install
+        source local_filename
+      end
+    end
+  end
 
     def get_sitebase base
       case base

@@ -38,43 +38,52 @@ def verify(options)
   if !packages_not_installed.empty?
     puts 'Packages not installed:'
     pp packages_not_installed
+  else
+    puts "***** All is fine! *****"
   end
 end
 
 options = OpenStruct.new
 options.run = 'install'
 options.log_file = 'log/installer.log'
-options.dest_dir = '/tmp'
+options.dest= '/tmp'
 
 OptionParser.new do |opts|
   opts.banner = "Usage: ruby ruby-installer.rb -p <package_file> -r <verify|install> -b<bucket(for install)> 
                  -l<log file> --dest-dir"
   
-  opts.on("-r", "--run command",
+  opts.on("-r", "--run-command",
               "Command to run: currently only validate is supported") do |command|
     options.run = command
   end
   
-  opts.on("-p", "--package_list file",
+  opts.on("-p", "--package-file [String]",
               "File listing packages to install") do |file|
     options.package_file = file
   end
 
-  opts.on("-b", "--bucket file",
+  opts.on("-b", "--bucket-file",
               "S3 bucket name") do |file|
     options.bucket = file
   end
 
-  opts.on("-l", "--log file",
-              "log file") do |file|
-    options.log_file = file
+  opts.on("-l", "--log-file",
+              "log file") do |log_file|
+    options.log_file = log_file
+  end
+  
+  opts.on('-d', "--dest",
+              "destination path for downloaded files") do |dest|
+    options.dest = dest
   end
 end.parse!
 
+
+options.logger = ::Logger.new(options.log_file)
 case options.run
 when 'install'
   UwDeploy::DeployFromPackageConfigFileV2.new(options).deploy
-when 'validate'
+when 'verify'
   verify(options)
 else
   UwDeploy::DeployFromPackageConfigFileV2.new(options).deploy
