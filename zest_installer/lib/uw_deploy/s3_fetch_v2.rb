@@ -20,7 +20,6 @@ module UwDeploy
   # @param destination [String] base download path
   #
     def process_object object, destination
-    require 'debug'
       s3_document = @bucket.objects[object]
       raise "Object not found in #{@bucket_name}: #{object}" if !s3_document.exists?
       @logger.info "Found #{object} with tag #{s3_document.etag}"

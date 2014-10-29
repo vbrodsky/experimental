@@ -37,6 +37,7 @@ linux	libpcre3-dev
 linux	libpng-dev
 linux	libbz2-dev
 linux	cdbs
+linux	libncurses5-dev
 # use unusual source for liblzma1, to avoid needing separate version of this config file for EMR
 #dpkg	liblzma1_4.999.9beta+20091116-1_amd64.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/ubuntu-cambrium
 linux	liblzma-dev

@@ -80,11 +80,13 @@ end.parse!
 
 
 options.logger = ::Logger.new(options.log_file)
-case options.run
-when 'install'
-  UwDeploy::DeployFromPackageConfigFileV2.new(options).deploy
-when 'verify'
-  verify(options)
-else
-  UwDeploy::DeployFromPackageConfigFileV2.new(options).deploy
-end
+verify(options)
+exit(0)
+#case options.run
+#when 'install'
+#  UwDeploy::DeployFromPackageConfigFileV2.new(options).deploy
+#when 'verify'
+#  verify(options)
+#else
+#  UwDeploy::DeployFromPackageConfigFileV2.new(options).deploy
+#end
