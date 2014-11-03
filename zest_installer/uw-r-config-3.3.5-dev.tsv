@@ -13,6 +13,8 @@ linux	pkg-config
 linux	xfsprogs
 linux	zlib1g-dev
 linux	libxml2-dev
+linux	sqlite3
+linux	libsqlite3-dev
 R	gbm	2.1	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-project	# <
 R	klaR	0.6-7	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-project	# 0.6-8 jwlm
 R	XML	3.98-1.1	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-project	# <
@@ -28,7 +30,7 @@ R	proto	0.3-10	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/
 R	gsubfn	0.6-5	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/rstudio	#
 R	chron	2.3-44	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/rstudio	# 2.3-44 jwlm
 R	RSQLite	0.11.4	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/rstudio	#
-R	RSQLite.extfuns	0.0.2	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
+R	RSQLite.extfuns	0.0.2	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest/tmp	#
 # sqldf sometimes needs to be built after DBI?
 R	sqldf	0.4-6.4	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/rstudio	#
 # we need to load these pkgs explicitly for lubridate: DBI, plyr, stringr, digest, memoise
