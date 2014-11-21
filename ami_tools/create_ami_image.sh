@@ -18,6 +18,10 @@ fi
 
 AMI_NAME=$1
 
+REGION=$2
+${REGION:=us-east-1}
+
+
 echo '=== Creating an Image'
 INSTANCE_ID=`wget -q -O - http://169.254.169.254/latest/meta-data/instance-id`
 
