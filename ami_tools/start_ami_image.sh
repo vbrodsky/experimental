@@ -2,7 +2,7 @@
 #!/bin/bash
 show_help() {
 cat << EOF
-Usage: ${0##*/} [-hCV] -t [INSTANCE_TYPE] -W [AWS_ACCESS_KEY_ID] -O [AWS_SECRET_ACCESS_KEY] -g [SECURITY_GROUP] -s [SUBNET] -z [AVAILABILITY_ZONE] -I [IAM_ROLE] -N [NODE_NAME] -r [REGION] -n[NUM_INSTANCES]  [ami-id]
+Usage: ${0##*/} [-hCV] -t [INSTANCE_TYPE] -W [AWS_ACCESS_KEY_ID] -O [AWS_SECRET_ACCESS_KEY] -g [SECURITY_GROUP] -s [SUBNET] -z [AVAILABILITY_ZONE] -I [IAM_ROLE] -N [NODE_NAME] -r [REGION] -n[NUM_INSTANCES]  [ami-id] [additional ec2-run-instances options]
 This program creates an instance from AMI   
  
     -h          		display this help and exit
@@ -19,6 +19,7 @@ This program creates an instance from AMI
     -N NODE_NAME
     -n NUM_INSTANCES		number of instances to start
     -r REGION
+    [additional ec2-run-instances options] - options to be passed to ec2-runs-instances as is
 
 Also see http://docs.aws.amazon.com/AWSEC2/latest/CommandLineReference/ApiReference-cmd-RunInstances.html for more on some of these options
 
@@ -81,6 +82,8 @@ then
     exit -1
 fi
 ami_id=$1
+shift
+additional_parameters=$@
 
 
 #required params
@@ -146,7 +149,7 @@ REGION=${REGION:-us-east-1}
 echo '==== Creating instance ===='
 printf 'classic=<%d> vps=<%d> instance_type=<%s> ami_id=<%s>\n' "$CLASSIC" "$VPC" "$INSTANCE_TYPE" "$ami_id"
 
-RESULT=`ec2-run-instances $ami_id -O $AWS_SECRET_ACCESS_KEY -W $AWS_ACCESS_KEY_ID -n $NUM_INSTANCES -t $INSTANCE_TYPE --region $REGION $security_group_opts $key_pair_opts $availability_zone_opts $subnet_opts $iam_role_opts`
+RESULT=`ec2-run-instances $ami_id -O $AWS_SECRET_ACCESS_KEY -W $AWS_ACCESS_KEY_ID -n $NUM_INSTANCES -t $INSTANCE_TYPE --region $REGION $security_group_opts $key_pair_opts $availability_zone_opts $subnet_opts $iam_role_opts $additional_parameters`
 if [ $? -ne 0 ]; then
     echo "Could not start the instance"
     exit 1	
