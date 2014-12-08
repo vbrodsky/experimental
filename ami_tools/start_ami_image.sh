@@ -2,12 +2,10 @@
 #!/bin/bash
 show_help() {
 cat << EOF
-Usage: ${0##*/} [-hCV] -t [INSTANCE_TYPE] -W [AWS_ACCESS_KEY_ID] -O [AWS_SECRET_ACCESS_KEY] -g [SECURITY_GROUP] -s [SUBNET] -z [AVAILABILITY_ZONE] -I [IAM_ROLE] -N [NODE_NAME] -r [REGION] -n[NUM_INSTANCES]  [ami-id] [additional ec2-run-instances options]
+Usage: ${0##*/} -t [INSTANCE_TYPE] -W [AWS_ACCESS_KEY_ID] -O [AWS_SECRET_ACCESS_KEY] -g [SECURITY_GROUP] -s [SUBNET] -z [AVAILABILITY_ZONE] -I [IAM_ROLE] -N [NODE_NAME] -r [REGION] -n[NUM_INSTANCES]  [ami-id] [additional ec2-run-instances options]
 This program creates an instance from AMI   
  
     -h          		display this help and exit
-    -C 				classic AWS network (either this or the VPC option is required)
-    -V				VPC
     -t INSTANCE_TYPE		valid AWS instance size, i.e. m3.large, etc.
     -k KEY_PAIR			the name of AWS key pair (optional)
     -W AWS_ACCESS_KEY_ID	AWS access key id
@@ -31,17 +29,11 @@ output_file=""
 verbose=0
 
 OPTIND=1 # Reset is necessary if getopts was used previously in the script.  It is a good idea to make this local in a function.
-while getopts ":hCVt:k:n:W:O:g:s:z:I:N:" opt; do
+while getopts ":h:t:k:n:W:O:g:s:z:I:N:r:" opt; do
     case "$opt" in
         h)
             show_help
             exit 0
-            ;;
-        C)  CLASSIC=1
-	    VPC=0
-            ;;
-        V)  CLASSIC=0
-	    VPC=1
             ;;
         t)  INSTANCE_TYPE=$OPTARG
             ;;
@@ -62,6 +54,8 @@ while getopts ":hCVt:k:n:W:O:g:s:z:I:N:" opt; do
         I)  IAM_ROLE=$OPTARG
             ;;
         N)  NODE_NAME=$OPTARG
+            ;;
+        r)  REGION=$OPTARG
             ;;
  	\?)
       	   echo "Invalid option: -$OPTARG" >&2
@@ -97,11 +91,6 @@ if [ -z "$AWS_SECRET_ACCESS_KEY" ]; then
     exit -1
 fi  
 
-if [ -z "$CLASSIC" -a -z "$VPC" ]; then
-    echo "Need to set either Classic or VPC flag"
-    exit -1
-fi  
-
 if [ -z "$INSTANCE_TYPE" ]; then
     echo "Need to set -t instance type"
     exit -1
@@ -126,14 +115,10 @@ else
     availability_zone_opts="-z $AVAILABILITY_ZONE"
 fi
   
-if [ $VPC -eq 1 ]; then
-    if [ -z "$SUBNET" ]; then
-        subnet_opts="-s $SUBNET"
-    else
-        subnet_opts=''
-    fi
-else
+if [ -z "$SUBNET" ]; then
     subnet_opts=''
+else
+    subnet_opts="-s $SUBNET"
 fi
 
 if [ -z "$IAM_ROLE" ]; then
@@ -147,7 +132,7 @@ REGION=${REGION:-us-east-1}
 
 
 echo '==== Creating instance ===='
-printf 'classic=<%d> vps=<%d> instance_type=<%s> ami_id=<%s>\n' "$CLASSIC" "$VPC" "$INSTANCE_TYPE" "$ami_id"
+printf 'instance_type=<%s> ami_id=<%s>\n' "$INSTANCE_TYPE" "$ami_id"
 
 RESULT=`ec2-run-instances $ami_id -O $AWS_SECRET_ACCESS_KEY -W $AWS_ACCESS_KEY_ID -n $NUM_INSTANCES -t $INSTANCE_TYPE --region $REGION $security_group_opts $key_pair_opts $availability_zone_opts $subnet_opts $iam_role_opts $additional_parameters`
 if [ $? -ne 0 ]; then
@@ -155,7 +140,7 @@ if [ $? -ne 0 ]; then
     exit 1	
 fi
 
-instance_id=$(echo $RESULT | cut -d ' ' -f6)
+instance_id=$(echo $RESULT | cut -d ' ' -f5)
 
 #set node name
 if [ -n "$NODE_NAME" ]; then
