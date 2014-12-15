@@ -1,8 +1,9 @@
-# this file was last compared to a developer's (jwlm's) configuration on 7/30/14, all
+# this file was last compared to a developer's (jwlm's) configuration on 10/?/14, all
 # lines ending with # were verified, '<' means an earlier version was used by jwlm
 #
 R	DBI	0.2-7	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-project	#
-dpkg	r-cran-runit_0.4.25-1_all.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/launchpad-librarian	# 0.4.26 jwlm
+#dpkg	r-cran-runit_0.4.25-1_all.deb	s3://zestfinance_underwriting_development/eng/deploy/pub/launchpad-librarian	# 0.4.26 jwlm
+R	RUnit	0.4.27	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/rstudio	# needed for R3.1.1
 linux	libpostgresql-ocaml-dev
 linux	libcurl4-openssl-dev
 linux	libmysqlclient-dev
@@ -12,8 +13,11 @@ linux	libexpat-dev
 linux	pkg-config
 linux	xfsprogs
 linux	zlib1g-dev
+# for 14.04 LTS
 linux	libxml2-dev
+# for 14.04 LTS
 linux	sqlite3
+# for 14.04 LTS
 linux	libsqlite3-dev
 R	gbm	2.1	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-project	# <
 R	klaR	0.6-7	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-project	# 0.6-8 jwlm
@@ -30,7 +34,7 @@ R	proto	0.3-10	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/
 R	gsubfn	0.6-5	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/rstudio	#
 R	chron	2.3-44	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/rstudio	# 2.3-44 jwlm
 R	RSQLite	0.11.4	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/rstudio	#
-R	RSQLite.extfuns	0.0.2	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest/tmp	#
+R	RSQLite.extfuns	0.0.3.1	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
 # sqldf sometimes needs to be built after DBI?
 R	sqldf	0.4-6.4	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/rstudio	#
 # we need to load these pkgs explicitly for lubridate: DBI, plyr, stringr, digest, memoise
@@ -56,10 +60,11 @@ R	RcppArmadillo	0.4.300.8.0	.tar.gz	s3://zestfinance_underwriting_development/en
 # packages we provide
 R	mmap	0.8.0	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
 R	mmdf	2.0-Rcpp0.11.2	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
-R	NewCoerceProto	1.2-Rcpp0.11.2	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
+R	TemplateCoerce	0.5	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
 R	syslogR	0.99-Rcpp0.11.2	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
-#R	Underwriting	3.3.5	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
-R	jlPredictSVM	1.2	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
+R	UWcore	4.0.1	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
+R	Interview	2.0.3	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
+R	jlPredictSVM	1.3	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/zest	#
 # additional useful packages
 R	RMySQL	0.9-3	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-project	#
 R	sm	2.2-5.4	.tar.gz	s3://zestfinance_underwriting_development/eng/deploy/pub/cran-project	# <
